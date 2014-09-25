@@ -1,0 +1,77 @@
+CS152 Winter 2013
+Section: 023
+Name: Cynthia Kwok
+Login: kwokcy
+Email: ckwok004@ucr.edu
+Assign: Project Phase 2 Parser Generation Using bison
+File: grammar.txt
+
+(terminals)
+[non-terminals]
+{epsilon}
+
+Program:
+[input] -> (program) (identifier) (;) [block] (endprogram)
+
+Block:
+[block]         -> [declaration_l] (beginprogram) [statement_l]
+[declaration_l] -> [declaration] (;) [declaration_l] | [declaration] (;)
+[statement_l]   -> [statement] (;) [statement_l] | [statement] (;)
+
+Declaration:
+[declaration]  -> [identifier_l] (:) (integer) | [identifier_l] (:) (array)
+                  (l_paren) (number) (r_paren) (of) (integer)
+[identifier_l] -> (identifier) (,) [identifier_l] | (identifier)
+
+Statement:
+[statement]   -> [statement1] | [statement2] | [statement3] |
+                 [statement4] | [statement5] | [statement6] | [statement7]
+[statement1]  -> [var] (:=) [expression]
+[statement2]  -> (if) [bool_exp] (then) [statement_2] (endif)
+[statement_2] -> [statement_l] | [statement_l] (else) [statement_l]
+[statement3]  -> (while) [bool_exp] (beginloop) [statment_l] (endloop)
+[statement4]  -> (do) (beginloop) [statement_l] (endloop) (while) [bool_exp]
+[statement5]  -> (read) [var_l]
+[var_l]       -> [var] (,) [var_l] | [var]
+[statement6]  -> (write) [var_l]
+[statement7]  -> (continue)
+
+Bool_Exp:
+[bool_exp]   -> [relation_and_exp] [bool_exp_l]
+[bool_exp_l] -> (or) [relation_and_exp] [bool_exp_l] | {epsilon}
+
+Relation_And_Exp:
+[relation_and_exp]   -> [relation_exp] [relation_and_exp_l]
+[relation_and_exp_l] -> (and) [relation_exp] [relation_and_exp_l] | 
+                        {epsilon}
+
+Relation_Exp:
+[relation_exp]  -> (not) [relation_exps] | [relation_exps] 
+[relation_exps] -> [relation_exp1] | [relation_exp2] | [relation_exp3] |
+                   [relation_exp4]
+[relation_exp1] -> [expression] [comp] [expression]
+[relation_exp2] -> (true)
+[relation_exp3] -> (false)
+[relation_exp4] -> (l_paren) [bool_exp] (r_paren)
+
+Comp:
+[comp] -> (=) | (<>) | (<) | (>) | (<=) | (>=)
+
+Expression:
+[expression]   -> [multiplicative_exp] [expression_l]
+[expression_l] -> (+) [multiplicative_exp] [expression_l] |
+                  (-) [multiplicative_exp] [expression_l] | {epsilon}
+
+Multiplicative_Exp:
+[multiplicative_exp]   -> [term] [multiplicative_exp_l]
+[multiplicative_exp_l] -> (*) [term] [multiplicative_exp_l] |
+                          (/) [term] [multiplicative_exp_l] |
+                          (%) [term] [multiplicative_exp_l] | {epsilon}
+
+Term:
+[term]  -> (-) [terms] | [terms]
+[terms] -> [var] | (number) | (l_paren) [expression] (r_paren)
+
+Var:
+[var] -> (identifier) | (identifier) (l_paren) [expression] (r_paren)
+
